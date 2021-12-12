@@ -20,8 +20,7 @@ namespace ITHS_Backend_C_Lab_1.Controllers
         [Route("")]
         public IActionResult GetAllAnimals()
         {
-            var animals = _aRepo
-                 .GetAll();
+            var animals = _aRepo.GetAll();
             return Ok(animals);
         }
         
@@ -56,11 +55,18 @@ namespace ITHS_Backend_C_Lab_1.Controllers
         [HttpPatch("{uid}")]
         public IActionResult UpdateAnimal([FromBody] UpdateAnimalDto updateAnimalDto, int uid)
         {
+            
+            Animal animal = _aRepo.FindByUid(uid);
+            if (animal is null)
+            {
+                return NotFound("Could not find animal with UID " + uid);
+            }
+            
             Animal nUpdateAnimal = _aRepo.UpdateAnimal(updateAnimalDto, uid);
             AnimalDto animalDto = MapAnimalToAnimalDto(nUpdateAnimal);
             
             
-            return Ok("Animal with name " + nUpdateAnimal.Name + " updated to " + animalDto.Name);
+            return Ok("Animal with UID " + uid + " was updated with new name, " + animalDto.ToUpdateString());
         }
         
         
@@ -75,14 +81,6 @@ namespace ITHS_Backend_C_Lab_1.Controllers
             _aRepo.DeleteAnimal(uid);
             return Ok("Animal has been has been deleted");
         }
-        
-        /*
-        [HttpGet]
-        [Route("/error")]
-        public IActionResult HandleError() =>
-            Problem();
-            */
-        
         
         private AnimalDto MapAnimalToAnimalDto(Animal animal)
         {

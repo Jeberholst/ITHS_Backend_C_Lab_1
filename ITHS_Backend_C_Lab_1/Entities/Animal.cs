@@ -15,5 +15,10 @@ namespace ITHS_Backend_C_Lab_1.Entities
         [Required]
         public string Name { get; set; }
 
+
+        public string getName()
+        {
+            return Name;
+        }
     }
 }

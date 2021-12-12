@@ -5,6 +5,10 @@
         public int Uid { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
-        
+
+        public string ToUpdateString()
+        {
+            return Name;
+        }
     }
 }
