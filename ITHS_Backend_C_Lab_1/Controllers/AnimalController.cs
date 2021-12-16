@@ -10,7 +10,7 @@ namespace ITHS_Backend_C_Lab_1.Controllers
     public class AnimalController : ControllerBase
     {
         private readonly IAnimalRepo _aRepo;
-
+        
         public AnimalController(IAnimalRepo aRepo)
         {
             _aRepo = aRepo;
@@ -20,19 +20,15 @@ namespace ITHS_Backend_C_Lab_1.Controllers
         [Route("")]
         public IActionResult GetAllAnimals()
         {
-            var animals = _aRepo.GetAll();
-            return Ok(animals);
+            return Ok(_aRepo.GetAll());
         }
         
         [HttpGet("{uid}")]
         public IActionResult GetAnimalByUid(int uid)
         {
+            
+            if (!IsExistingAnimal(uid)) return NotFound(StrNotFound(uid));
             Animal animal = _aRepo.FindByUid(uid);
-            if (animal is null)
-            {
-                return NotFound("Could not find animal with UID " + uid);
-            }
-
             AnimalDto animalDto = MapAnimalToAnimalDto(animal);
             return Ok(animalDto);
         }
@@ -43,8 +39,7 @@ namespace ITHS_Backend_C_Lab_1.Controllers
             
             Animal createAnimal = _aRepo.CreateAnimal(createAnimalDto);
             AnimalDto newAnimalDto = MapAnimalToAnimalDto(createAnimal);
-            
-           
+
             return CreatedAtAction(
                 nameof(GetAnimalByUid),
                 new { uid = newAnimalDto.Uid },
@@ -56,12 +51,8 @@ namespace ITHS_Backend_C_Lab_1.Controllers
         public IActionResult UpdateAnimal([FromBody] UpdateAnimalDto updateAnimalDto, int uid)
         {
             
-            Animal animal = _aRepo.FindByUid(uid);
-            if (animal is null)
-            {
-                return NotFound("Could not find animal with UID " + uid);
-            }
-            
+            if (!IsExistingAnimal(uid)) return NotFound(StrNotFound(uid));
+
             Animal nUpdateAnimal = _aRepo.UpdateAnimal(updateAnimalDto, uid);
             AnimalDto animalDto = MapAnimalToAnimalDto(nUpdateAnimal);
             
@@ -73,11 +64,7 @@ namespace ITHS_Backend_C_Lab_1.Controllers
         [HttpDelete("{uid}")]
         public IActionResult DeleteAnimal(int uid)
         {
-            Animal animal = _aRepo.FindByUid(uid);
-            if (animal is null)
-            {
-                return NotFound("Could not find animal with UID " + uid);
-            }
+            if (!IsExistingAnimal(uid)) return NotFound(StrNotFound(uid));
             _aRepo.DeleteAnimal(uid);
             return Ok("Animal has been has been deleted");
         }
@@ -90,6 +77,22 @@ namespace ITHS_Backend_C_Lab_1.Controllers
                 Type = animal.Type,
                 Name = animal.Name,
             };
+        }
+        
+        private Boolean IsExistingAnimal(int uid)
+        {
+            Animal animal = _aRepo.FindByUid(uid);
+            if (animal is null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        
+        private string StrNotFound(int uid)
+        {
+            return $"Could not find animal with UID {uid}";
         }
         
     }

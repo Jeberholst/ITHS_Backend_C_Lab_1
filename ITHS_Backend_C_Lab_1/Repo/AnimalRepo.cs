@@ -50,32 +50,32 @@ namespace ITHS_Backend_C_Lab_1.Repo
                 new()
                 {
                     Uid = 5,
-                    Type = "Komondor",
-                    Name = "Rico"
+                    Type = "American Bobtail",
+                    Name = "Mimmi"
                 },
                 new()
                 {
                     Uid = 6,
-                    Type = "Labrador Retriever",
-                    Name = "Cola"
+                    Type = "Balinese",
+                    Name = "Mjau"
                 },
                 new()
                 {
                     Uid = 7,
-                    Type = "Leonberger",
+                    Type = "Bengal",
                     Name = "Sune"
                 },
                 new()
                 {
                     Uid = 8,
-                    Type = "Lhasa Apso",
-                    Name = "Bella"
+                    Type = "Chinese Box Turtle",
+                    Name = "Murtle"
                 },
                 new()
                 {
                     Uid = 9,
-                    Type = "Maltese",
-                    Name = "Lilly"
+                    Type = "Cumberland Slider",
+                    Name = "Sten"
                 },
                 new()
                 {

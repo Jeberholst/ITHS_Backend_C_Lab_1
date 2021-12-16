@@ -16,7 +16,7 @@ namespace ITHS_Backend_C_Lab_1.Entities
         public string Name { get; set; }
 
 
-        public string getName()
+        public string GetName()
         {
             return Name;
         }
