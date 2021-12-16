@@ -4,7 +4,7 @@ A simple C# Web Rest API - Animals
 
 Joakim Eberholst only
 
-##Requests
+## Requests
 * GET /animals Lista samtliga djur.
 * GET /animals/{id} Returnera ett djur beroende på vilket id som skickas in.
 * PUT /animals/{id} Uppdatera namnet på en djur med rätt id
